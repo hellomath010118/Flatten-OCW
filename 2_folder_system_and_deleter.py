@@ -1,5 +1,5 @@
-import os
-import shutil
+from config import (os, shutil, TEMPNAME)
+
 HASH_SEPERATOR = "##########################"
 
 if __name__ == "__main__":
@@ -14,7 +14,7 @@ if __name__ == "__main__":
         path = os.path.join(os.getcwd(), filename)
         if os.path.isfile(path) and not filename.endswith(".py") and not filename.endswith(".py.swp"):
             os.remove(path)
-        if os.path.isdir(path) and filename != "static_resources":
+        if os.path.isdir(path) and filename != "static_resources" and filename != ".git" and filename != TEMPNAME[:-1]:
             shutil.rmtree(path)
 
     # STAGE 3: REMOVE useless files

@@ -1,4 +1,4 @@
-import os
+from config import (os, re)
 """
 TO DO: Use logging functions instead of printing the message in stdout
 """
@@ -52,14 +52,17 @@ if __name__ == "__main__":
     print("CLASSIFYING FILES.")
     print(HASH_SEPERATOR)
 
+    lecture_regex = re.compile(r'l[0-9]*\.pdf')  
+
     for filename in os.listdir():
         if os.path.isfile(filename):
-            if "mit" not in filename.lower():
+            name = filename.lower()
+            if "mit" not in name:
                 relocate_file_into(filename, "Transcripts")
-            elif "ps" in filename.lower() or "hw" in filename.lower():
+            elif "ps" in name or "hw" in name:
                 relocate_file_into(filename, "PSets")
-            elif "lec" in filename.lower():
+            elif "lec" in name or re.match(lecture_regex, name):
                 relocate_file_into(filename, "Lectures")
-            elif "slide" in filename.lower():
+            elif "slide" in name:
                 relocate_file_into(filename, "Slides")
        

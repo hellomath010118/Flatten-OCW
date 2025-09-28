@@ -1,5 +1,4 @@
-import os
-import fitz 
+from config import (os, shutil, pymupdf, TEMPNAME)
 
 def weak_find_topic(text: str):
     """
@@ -88,7 +87,7 @@ def process_pdfs(directory: str):
             try:
                 file_path = os.path.join(directory, filename)
                 print(f"Processing: {filename}")
-                current_pdf = fitz.open(file_path)
+                current_pdf = pymupdf.open(file_path)
                 
                 try:
                     first_page = current_pdf[0].get_text('text', flags=2)
@@ -115,3 +114,15 @@ if __name__ == "__main__":
     print(HASH_SEPERATOR)
     
     process_pdfs(os.getcwd())
+    
+    os.chdir("../..")
+    for file in os.listdir(os.path.join(os.getcwd(), TEMPNAME[:-1])):
+        if file.endswith(".zip"):
+            shutil.move(
+                os.path.join(TEMPNAME, file),
+                os.path.join(os.getcwd(), file)
+            )
+
+    if not os.listdir(TEMPNAME):
+        shutil.rmtree(TEMPNAME)
+
