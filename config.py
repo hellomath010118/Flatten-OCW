@@ -4,4 +4,5 @@ import shutil
 import pymupdf
 from zipfile import ZipFile as open_zip
 
-TEMPNAME = "_mit_ocw_script_temporary/"
+TEMPNAME = "._mit_ocw_script_temporary/"
+CONSTRUCTED_DIRS = ["Transcripts", "PSets", "Lectures", "Slides", "Exams"]

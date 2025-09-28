@@ -1,4 +1,4 @@
-from config import (os, re)
+from config import (os, re, CONSTRUCTED_DIRS)
 """
 TO DO: Use logging functions instead of printing the message in stdout
 """
@@ -47,12 +47,15 @@ if __name__ == "__main__":
     make_if_absent("Lectures")
     make_if_absent("Transcripts")
     make_if_absent("Slides")
+    make_if_absent("Exams")
 
     print(HASH_SEPERATOR)
     print("CLASSIFYING FILES.")
     print(HASH_SEPERATOR)
 
-    lecture_regex = re.compile(r'l[0-9]*\.pdf')  
+    lecture_regex = re.compile(r'l[0-9_]+\.pdf$', re.IGNORECASE)
+    short_quiz_regex = re.compile(r'q[0-9_]+\.pdf$', re.IGNORECASE)
+
 
     for filename in os.listdir():
         if os.path.isfile(filename):
@@ -61,8 +64,13 @@ if __name__ == "__main__":
                 relocate_file_into(filename, "Transcripts")
             elif "ps" in name or "hw" in name:
                 relocate_file_into(filename, "PSets")
-            elif "lec" in name or re.match(lecture_regex, name):
+            elif "exam" in name or "quiz" in name or "ans" in name or re.search(short_quiz_regex, name):
+                relocate_file_into(filename, "Exams")
+            elif "lec" in name or re.search(lecture_regex, name):
                 relocate_file_into(filename, "Lectures")
             elif "slide" in name:
                 relocate_file_into(filename, "Slides")
        
+    for directory in CONSTRUCTED_DIRS:
+        if not os.listdir(directory):
+            os.removedirs(directory)

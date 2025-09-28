@@ -116,8 +116,10 @@ if __name__ == "__main__":
     process_pdfs(os.getcwd())
     
     os.chdir("../..")
+    final_folder_name = ""
     for file in os.listdir(os.path.join(os.getcwd(), TEMPNAME[:-1])):
         if file.endswith(".zip"):
+            final_folder_name = os.path.splitext(file)[0]
             shutil.move(
                 os.path.join(TEMPNAME, file),
                 os.path.join(os.getcwd(), file)
@@ -125,4 +127,7 @@ if __name__ == "__main__":
 
     if not os.listdir(TEMPNAME):
         shutil.rmtree(TEMPNAME)
+    else:
+        print(f"[!] Unexpected files found in temporary directory: {os.listdir(TEMPNAME)}")
 
+    os.rename("static_resources", final_folder_name)
