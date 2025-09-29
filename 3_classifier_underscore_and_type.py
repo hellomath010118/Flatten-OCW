@@ -62,11 +62,11 @@ if __name__ == "__main__":
             name = filename.lower()
             if "mit" not in name:
                 relocate_file_into(filename, "Transcripts")
-            elif "ps" in name or "hw" in name:
+            elif "ps" in name or "hw" in name or "prob" in name:
                 relocate_file_into(filename, "PSets")
             elif "exam" in name or "quiz" in name or "ans" in name or re.search(short_quiz_regex, name):
                 relocate_file_into(filename, "Exams")
-            elif "lec" in name or re.search(lecture_regex, name):
+            elif "lec" in name or "note" in name or re.search(lecture_regex, name):
                 relocate_file_into(filename, "Lectures")
             elif "slide" in name:
                 relocate_file_into(filename, "Slides")
